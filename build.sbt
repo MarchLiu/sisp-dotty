@@ -8,7 +8,7 @@ lazy val root = project
 
     scalaVersion := dottyVersion,
 
-    libraryDependencies += "io.github.marchliu" % "jaskell-dotty_3.0.0-M1" % "0.1.1",
+    libraryDependencies += "io.github.marchliu" % "jaskell-dotty_3.0.0-M1" % "0.1.2",
     libraryDependencies += "org.scalatest" % "scalatest_3.0.0-M1" % "3.2.3",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test",
   )

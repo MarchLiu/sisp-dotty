@@ -14,7 +14,7 @@ import scala.util.Success
  */
 class AndSpec extends AnyFlatSpec with Matchers {
   import jaskell.parsec.Txt._
-  import jaskell.parsec.stateConfig
+  import jaskell.parsec.textParserConfig
 
   val parser = new Parser
   val env = new Env
@@ -36,19 +36,19 @@ class AndSpec extends AnyFlatSpec with Matchers {
   env.put("<=", new LessOrEquals)
 
   "XAndY" should "true only (and true true)" in {
-    parser ? "(and (> 1 0) (> 2 1))".state flatMap { element =>
+    parser ? "(and (> 1 0) (> 2 1))" flatMap { element =>
       element.asInstanceOf[Element].eval(env)
     } should be (Success(true))
 
-    parser ? "(and (> 1 0) (< 2 1))".state flatMap { element =>
+    parser ? "(and (> 1 0) (< 2 1))" flatMap { element =>
       element.asInstanceOf[Element].eval(env)
     } should be (Success(false))
 
-    parser ? "(and (> 0 0) (> 2 1))".state flatMap { element =>
+    parser ? "(and (> 0 0) (> 2 1))" flatMap { element =>
       element.asInstanceOf[Element].eval(env)
     } should be (Success(false))
 
-    (parser ? "(and (> 0 abc) (> 2 1))".state flatMap { element =>
+    (parser ? "(and (> 0 abc) (> 2 1))" flatMap { element =>
       element.asInstanceOf[Element].eval(env)
     }).isFailure should be (true)
 

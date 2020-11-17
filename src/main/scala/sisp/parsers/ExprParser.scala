@@ -17,7 +17,6 @@ import scala.util.Try
  */
 class ExprParser extends Parsec[Char, Any]{
   import jaskell.parsec.parsecConfig
-  
   val skip: SkipWhitespaces = skipWhiteSpaces
   val elementParser = new Parser
 
