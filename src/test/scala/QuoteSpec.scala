@@ -20,12 +20,8 @@ class QuoteSpec extends AnyFlatSpec with Matchers {
     sisp.parse("'(+ 2 3)") should matchPattern { case _: Success[Expression] => }
 
     sisp.parse("'(+ 2 3)") flatMap sisp.eval should matchPattern { case _: Success[_] => }
-
-    sisp.read("'3.14") should matchPattern {case _: Success[Quote] =>}
-
-    sisp.parse("'3.14") should matchPattern {case _: Success[NumberElement] =>}
-
-    sisp.parse("'3.14") flatMap sisp.eval should be (Success(3.14))
+    
+    sisp.parse("'3.14") should be (Success(NumberElement(3.14)))
 
   }
 }
