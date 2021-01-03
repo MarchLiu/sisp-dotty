@@ -19,11 +19,9 @@ class ExprParser extends Parsec[Char, Any]{
   import jaskell.parsec.parsecConfig
   val skip: SkipWhitespaces = skipWhiteSpaces
   val elementParser = new Parser
+  lazy val parser =
+    between(ch('(') *> skip, skip *> ch(')'), sepBy1(elementParser, skip)) >>=
+      {vals => pack(new Expression(vals))}
 
-  override def apply(s: State[Char]): Try[Element] = {
-    val parser =
-      between(ch('(') *> skip, skip *> ch(')'), sepBy1(elementParser, skip)) >>=
-        {vals => pack(new Expression(vals))}
-    parser ? s
-  }
+  override def apply(s: State[Char]): Try[Element] = parser ? s
 }

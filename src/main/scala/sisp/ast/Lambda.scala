@@ -29,14 +29,6 @@ trait Lambda {
     }
   }
 
-  def sequenceU[T](params: Seq[Try[T]]): Try[List[T]] =
-    params.foldRight(Try(List[T]())) { (elem, acc) =>
-      for {
-        xs <- acc
-        x <- elem
-      } yield x.asInstanceOf[T] :: xs
-    }
-
   def isList(obj: Any): Boolean = {
     obj.isInstanceOf[Seq[_]] || obj.isInstanceOf[List[_]] ||
       (obj.isInstanceOf[Quote] && obj.asInstanceOf[Quote].value.isInstanceOf[Expression])

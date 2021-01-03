@@ -12,6 +12,8 @@ import scala.util.{Failure, Try}
  * @since 2020/07/28 16:30
  */
 trait Compare extends Lambda {
+  import jaskell.seqU
+  
   val and = new And
   def cmp(x: Any, y: Any): Try[Boolean]
   def compare(seq: Seq[Any]): Try[Boolean] = {
@@ -19,7 +21,7 @@ trait Compare extends Lambda {
       return Failure(new ParserException(s"can't compare ${seq.size} args, need more args for compare"))
     }
 
-    sequenceU(seq.sliding(2).map(pair => cmp(pair.head, pair.last)).toSeq).map {_ forall identity}
+    seq.sliding(2).map(pair => cmp(pair.head, pair.last)).toSeq.sequenceU.map {_ forall identity}
 
   }
 

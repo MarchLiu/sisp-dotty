@@ -30,14 +30,15 @@ object IsTrue {
     case boolean: Boolean => boolean
     case number: Number => number.intValue() != 0
     case either: Either[_,  _] => either.isRight
+    case t: Try[_] => t.isSuccess
     case opt: Option[_] => opt.isDefined
     case coll: util.Collection[_] => !coll.isEmpty
     case seq: Seq[_] => seq.nonEmpty
     case map: Map[_, _] => map.nonEmpty
     case set: Set[_] => set.nonEmpty
     case str: String => str.nonEmpty
-    case Nil => false
+    case v:Any if(v != Nil)  => true
     case null => false
-    case _ => true
+    case _ => false
   }
 }

@@ -2,7 +2,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import sisp.ast._
 import sisp.parsers.Parser
-
+import org.scalatest.TryValues._
 import scala.util.Success
 
 /**
@@ -27,11 +27,9 @@ class LetSpec extends AnyFlatSpec with Matchers {
   env.put("-", new Sub)
   env.put("*", new sisp.ast.Product)
   env.put("/", new Divide)
-
-
+  
   "Let" should "support local vars" in {
-    parser ? "(let (pi 3.14) (* 2 pi))".state flatMap {
-      exp => env.eval(exp)
-    } should be(Success(6.28))
+    (parser ? "(let (pi 3.14) (* 2 pi))".state flatMap {exp => env.eval(exp)})
+      .success.value shouldBe 6.28
   }
 }

@@ -1,5 +1,6 @@
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.TryValues._
 import sisp.Sisp
 import sisp.ast.{Expression, NumberElement, Quote}
 
@@ -15,13 +16,14 @@ import scala.util.Success
 class QuoteSpec extends AnyFlatSpec with Matchers {
   val sisp = new Sisp
   "Quote" should "quote anything" in {
-    sisp.read("'(+ 2 3)") should matchPattern { case _: Success[Quote] => }
+    sisp.read("'(+ 2 3)").success.value.isInstanceOf[Quote] shouldBe true
 
-    sisp.parse("'(+ 2 3)") should matchPattern { case _: Success[Expression] => }
-
-    sisp.parse("'(+ 2 3)") flatMap sisp.eval should matchPattern { case _: Success[_] => }
+    sisp.parse("'(+ 2 3)").success.value.isInstanceOf[Expression] shouldBe true
     
-    sisp.parse("'3.14") should be (Success(NumberElement(3.14)))
+    (sisp.parse("'(+ 2 3)") flatMap sisp.eval)
+      .success.value shouldBe 5.0
+    
+    sisp.parse("'3.14").success.value shouldBe NumberElement(3.14)
 
   }
 }

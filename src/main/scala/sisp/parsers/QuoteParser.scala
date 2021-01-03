@@ -17,10 +17,8 @@ import scala.util.Try
 class QuoteParser extends Parsec[Char, Any]{
   import jaskell.parsec.Txt.{ch}
   import jaskell.parsec.parsecConfig
+  lazy val parser = new Parser
+  lazy val psc = ch('\'') *> parser >>= {value => pack(new Quote(value))}
 
-  override def apply(s: State[Char]): Try[Any] = {
-    val parser = new Parser
-    val psc = ch('\'') *> parser >>= {value => pack(new Quote(value))}
-    psc ? s
-  }
+  override def apply(s: State[Char]): Try[Any] = psc ? s
 }

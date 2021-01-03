@@ -17,8 +17,6 @@ class Parser extends Parsec[Char, Any]{
   val string: Parsec[Char, Any] = (new StringParser).attempt
   val quote: Parsec[Char, Any] = (new QuoteParser).attempt
   val name: Parsec[Char, Any] = (new NameParser).attempt
-  override def apply(s: State[Char]): Try[Any] = {
-    val parser: Parsec[Char, Any] = quote <|> expr <|> number <|> string <|> name
-    parser ? s
-  }
+  lazy val parser: Parsec[Char, Any] = quote <|> expr <|> number <|> string <|> name
+  override def apply(s: State[Char]): Try[Any] = parser ? s
 }
