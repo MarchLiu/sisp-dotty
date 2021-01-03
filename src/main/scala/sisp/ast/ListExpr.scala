@@ -12,6 +12,6 @@ import scala.util.Try
 class ListExpr extends Lambda {
   import jaskell.seqU
   override def apply(env: Env, params: Seq[Any]): Try[Any] = {
-    (params map env.eval).sequenceU map {values => new Quote(new Expression(values))}
+    (params map env.eval).flip map {values => new Quote(new Expression(values))}
   }
 }

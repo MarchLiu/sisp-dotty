@@ -12,7 +12,7 @@ import scala.util.Try
 class Recur extends Lambda {
   import jaskell.seqU
   override def apply(env: Env, params: Seq[Any]): Try[Any] = {
-    (params map env.eval).sequenceU map RecurExpression.apply
+    (params map env.eval).flip map RecurExpression.apply
   }
 }
 

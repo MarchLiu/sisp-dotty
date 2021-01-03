@@ -21,7 +21,7 @@ trait Compare extends Lambda {
       return Failure(new ParserException(s"can't compare ${seq.size} args, need more args for compare"))
     }
 
-    seq.sliding(2).map(pair => cmp(pair.head, pair.last)).toSeq.sequenceU.map {_ forall identity}
+    seq.sliding(2).map(pair => cmp(pair.head, pair.last)).toSeq.flip.map {_ forall identity}
 
   }
 
