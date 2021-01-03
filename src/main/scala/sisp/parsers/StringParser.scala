@@ -19,6 +19,7 @@ class StringParser extends Parsec[Char, Any] {
   import jaskell.parsec.parsecConfig  
 
   val char: ChNone = chNone("\"\\")
+  val quote = ch('"')
   val escapeChar: Parsec[Char, Char] = (ch('\\') *> {(s: State[Char]) =>
     one ? s flatMap {
       case 'n' => Success('\n')
@@ -29,7 +30,7 @@ class StringParser extends Parsec[Char, Any] {
       case c => Failure(new ParserException(s"expect a escape char but get \\$c"))
     }
   }).attempt
-  lazy val parser: Parsec[Char, String] = between(ch('"'), ch('"'), many(escapeChar <|> char)) >>= mkString
+  lazy val parser: Parsec[Char, String] = quote *> many(escapeChar <|> char) <* quote >>= mkString
 
   override def apply(s: State[Char]): Try[String] = {
     parser ? s
